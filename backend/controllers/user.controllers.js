@@ -1,4 +1,4 @@
-import {User} from '../modules/user.module.js'
+import {User} from '../modules/user.modules.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
@@ -88,9 +88,27 @@ const demo=(req,res)=>{
     res.send("this is for testing middleware....")
 }
 
+const getalluserexceptAuth=async(req,res)=>{
+    try{
+        const currentuser=req.user._id
+        const alluser=await User.find({_id:{$ne:currentuser}}).select("-password")
+        res.status(200).json({
+            success:true,
+            alluser
+        })
+    }catch(err){
+        console.error("error in fetching user :",err)
+        res.status(500).json({
+            sucess:false,
+            message:"Internal server error"
+        })
+    }
+}
+
 export{
     register,
     login,
     logout,
-    demo
+    demo,
+    getalluserexceptAuth
  }

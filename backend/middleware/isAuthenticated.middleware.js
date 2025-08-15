@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import {User} from '../modules/user.module.js'
+import {User} from '../modules/user.modules.js'
 const isauthenticated=async(req ,res , next)=>{
     try{
         const token=req.cookies.token|| req.header("Authorization")?.replace("Bearer ", "")

@@ -18,4 +18,7 @@ router.get('/logout',isauthenticated,controllers.logout)
 //dummy func testing for authentication purpose....
 router.get('/demo',isauthenticated,controllers.demo)
 
+//getting all user except the authenticated user...
+router.get('/getall',isauthenticated,controllers.getalluserexceptAuth)
+
 export default router
