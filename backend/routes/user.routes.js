@@ -1,6 +1,7 @@
 import express from "express"
 const router=express.Router()
 import * as controllers from '../controllers/user.controllers.js'
+import { getCurrentUser } from '../controllers/currentUser.controller.js'
 import isauthenticated from '../middleware/isAuthenticated.middleware.js'
 
 router.get('/trial',(req,res)=>{
@@ -20,5 +21,8 @@ router.get('/demo',isauthenticated,controllers.demo)
 
 //getting all user except the authenticated user...
 router.get('/getall',isauthenticated,controllers.getalluserexceptAuth)
+
+//get current user
+router.get('/current', isauthenticated, getCurrentUser)
 
 export default router

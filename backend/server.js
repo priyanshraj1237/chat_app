@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser"
 import connectionDB from "./config/conndb.js";
 import routes from "./routes/index.routes.js"
 const app=express()
+import cors from "cors"
 
 //.env file connection....
 dotenv.config({})
@@ -12,14 +13,29 @@ dotenv.config({})
 //database connection calling....
 connectionDB()
 
+// app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:true})) //
 app.use(cookieParser())
 
+//middleware
+
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
+
 //api default rendpoint...
 app.use('/',routes)
 
-const port=process.env.PORT||4000
-app.listen(port,()=>{
-    console.log(`Server is running on port ${port}`)
-})
+
+
+const port = process.env.PORT || 4000;
+
+// Import and setup Socket.IO
+import { setupSocket } from './config/socket.js';
+const httpServer = setupSocket(app);
+
+httpServer.listen(port, () => {
+    console.log(`Server and Socket.IO are running on port ${port}`);
+});

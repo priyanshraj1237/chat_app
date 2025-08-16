@@ -55,11 +55,14 @@ const login=async(req,res)=>{
         }
         const token= jwt.sign(tokendata,process.env.JWT_SECRET_KEY,{expiresIn:'1d'})
         return res.status(200).cookie("token",token,{ maxage:1*24*60*60*1000 , httpOnly :true ,sameSite :"strict"}).json({
+            sucess: true,
             message: `User : ${exsistuser.username} logedin sucessfully...`,
-            _id:exsistuser._id,
-            name:exsistuser.fullname,
-            username:exsistuser.username,
-            profilephoto:exsistuser.profilephoto
+            user: {
+                _id:exsistuser._id,
+                name:exsistuser.fullname,
+                username:exsistuser.username,
+                profilephoto:exsistuser.profilephoto
+            }
         })
     }catch(err){
         console.error("Login error..",err)
